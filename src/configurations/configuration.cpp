@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2019 - Pieter De Clercq. All rights reserved.
+ *
+ * https://github.com/thepieterdc/mailbridge/
+ */
+
 #include <fstream>
 #include <json.hpp>
 #include <iostream>
@@ -26,7 +32,7 @@ Configuration::Configuration(const std::string &file) {
     this->name = j["name"].get<std::string>();
     this->port = j["port"].get<std::uint_fast16_t>();
 
-    this->handlers = std::multimap<Authentication *, Handler *>();
+    this->handlers = std::map<Authentication *, Handler *>();
 
     json handlers_raw = j["handlers"];
     for (auto &handler_raw : handlers_raw) {

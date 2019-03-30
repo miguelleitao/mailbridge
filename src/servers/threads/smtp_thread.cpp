@@ -8,7 +8,10 @@
 #include <sstream>
 #include <string>
 #include <sys/socket.h>
+#include "base64.hpp"
 #include "smtp_thread.h"
+#include "../../util/string_util.h"
+#include "../../util/logging_util.h"
 
 void SmtpThread::client_send(const std::string &data) {
     auto length = static_cast<size_t>(data.length());
@@ -20,8 +23,26 @@ void SmtpThread::greet() {
 }
 
 void SmtpThread::handle_auth() {
-    // Ignore authentication for now.
-    client_send("235 2.7.0  Authentication Succeeded\n");
+    auto authentication_line = split_string(this->last_line, " ");
+    auto authentication_mechanism = authentication_line.at(1);
+
+    if (authentication_mechanism != "PLAIN") {
+        throw_error("Unsupported authentication mechanism: " + authentication_mechanism);
+    }
+
+    auto authentication_data_raw = base64_decode(authentication_line.at(2));
+    auto authentication_data = split_string(authentication_data_raw, '\0');
+
+    auto username = authentication_data.at(1);
+    auto password = authentication_data.at(2);
+
+    this->authentication = new Authentication(username, password);
+
+    if (this->server.authenticate(this->authentication)) {
+        client_send("235 2.7.0  Authentication Succeeded\n");
+    } else {
+        client_send("535 5.7.8  Authentication credentials invalid\n");
+    }
 }
 
 void SmtpThread::handle_data() {

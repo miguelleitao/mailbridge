@@ -7,14 +7,18 @@ endif ()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99")
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
+set(CMAKE_C_FLAGS_DEBUG "-g -DIS_DEBUG -fdiagnostics-show-option")
+set(CMAKE_C_FLAGS_RELEASE "-O3 -s")
 set(CMAKE_CXX_FLAGS_DEBUG "-g -DIS_DEBUG -fdiagnostics-show-option")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -s")
 
 add_definitions(-DMAILBRIDGE_VERSION="${PROJECT_VERSION}")
 
+find_package(Base64 REQUIRED)
 find_package(CURL REQUIRED)
 find_package(Json REQUIRED)
 
@@ -45,4 +49,5 @@ add_compile_options(-Wall -Wextra -Wpedantic -Wno-missing-field-initializers -Wn
 add_executable(mailbridge src/main.cpp ${configurations_SRC} ${handlers_SRC} ${messages_SRC} ${servers_SRC} ${util_SRC})
 target_link_libraries(mailbridge curl pthread)
 
+include_directories(${BASE64_INCLUDE_DIRS})
 include_directories(${JSON_INCLUDE_DIRS})

@@ -16,6 +16,7 @@
 class SmtpThread {
 private:
     bool active;
+    Authentication *authentication;
     int client_fd;
     std::string helo_name;
     std::string last_line;
@@ -36,7 +37,7 @@ public:
      * @param srv the server instance
      * @param client the client socket
      */
-    SmtpThread(SmtpServer &srv, int client) : active(true), client_fd(client), server(srv) {
+    SmtpThread(SmtpServer &srv, int client) : active(true), authentication(nullptr), client_fd(client), server(srv) {
         this->message = new SmtpMessage();
     }
 
@@ -44,7 +45,17 @@ public:
      * SmtpThread destructor.
      */
     ~SmtpThread() {
+        delete this->authentication;
         delete this->message;
+    }
+
+    /**
+     * Gets the authentication.
+     *
+     * @return the authentication
+     */
+    Authentication *get_authentication() {
+        return this->authentication;
     }
 
     /**

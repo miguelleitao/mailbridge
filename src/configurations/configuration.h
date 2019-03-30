@@ -21,7 +21,7 @@ using json = nlohmann::json;
  */
 class Configuration {
 private:
-    std::multimap<Authentication *, Handler *> handlers;
+    std::map<Authentication *, Handler *> handlers;
     std::string name;
     std::uint_fast16_t port;
 public:
@@ -42,7 +42,7 @@ public:
      *
      * @return the configured handlers
      */
-    std::multimap<Authentication *, Handler *> get_handlers() {
+    std::map<Authentication *, Handler *> get_handlers() {
         return this->handlers;
     }
 

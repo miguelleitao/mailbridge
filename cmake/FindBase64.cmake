@@ -1,0 +1,1 @@
+find_path(BASE64_INCLUDE_DIRS base64.hpp PATHS "${CMAKE_SOURCE_DIR}/lib/base64")

@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2019 - Pieter De Clercq. All rights reserved.
+ *
+ * https://github.com/thepieterdc/mailbridge/
+ */
+
 #include <sys/socket.h>
 #include <unistd.h>
 #include <iostream>
@@ -24,6 +30,8 @@ void SmtpServer::accept_client(int socket) {
             client.handle_quit();
         } else if (command == "RCPT") {
             client.handle_rcpt();
+        } else if (line.empty()) {
+            break;
         } else {
             std::cerr << "Unknown command: " << command << std::endl;
             break;
@@ -32,5 +40,5 @@ void SmtpServer::accept_client(int socket) {
 
     close(socket);
 
-    this->handle(client.get_message());
+    this->handle(client.get_authentication(), client.get_message());
 }
