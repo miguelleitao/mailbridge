@@ -1,0 +1,11 @@
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - run: sudo apt-get update
+      - run: sudo apt-get -y install libcurl4-openssl-dev
+      - run: cmake .
+      - run: make -j
