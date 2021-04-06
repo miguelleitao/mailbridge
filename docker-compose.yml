@@ -1,0 +1,8 @@
+version: '3.7'
+
+services:
+    mailbridge:
+        hostname: mailbridge.local
+        build: .
+        ports:
+            - "2525:2525"
