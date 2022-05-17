@@ -25,7 +25,7 @@ bool Server::authenticate(Authentication *authentication) {
 void Server::handle(Authentication *authentication, SmtpMessage *message) {
     for (auto &handler : this->configuration()->get_handlers()) {
         auto auth = handler.first;
-        if (*auth == *authentication) {
+        if ( ( ! authentication ) || *auth == *authentication) {
             handler.second->handle(message);
         }
     }
