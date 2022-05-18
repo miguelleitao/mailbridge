@@ -1,0 +1,19 @@
+# mailbridge.service
+# This file should be installed into /usr/local/lib/systemd/system/
+
+[Unit]
+Description=MailBridge
+After=network.target
+StartLimitIntervalSec=30
+
+
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=10
+StartLimitBurst=10
+StartLimitAction=reboot
+ExecStart=/usr/local/bin/mailbridge
+
+[Install]
+WantedBy=multi-user.target
