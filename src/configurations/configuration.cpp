@@ -12,6 +12,7 @@
 #include "../handlers/handler.h"
 #include "../handlers/slack_handler.h"
 #include "../handlers/stdout_handler.h"
+#include "../handlers/mqtt_handler.h"
 #include "../util/logging_util.h"
 
 using json = nlohmann::json;
@@ -23,6 +24,14 @@ using json = nlohmann::json;
  * @return the Slack handler
  */
 SlackHandler *create_slack_handler(json options);
+
+/**
+ * Creates a Mqtt handler from the specified options.
+ *
+ * @param options the handler options
+ * @return the Mqtt handler
+ */
+MqttHandler *create_mqtt_handler(json options);
 
 Configuration::Configuration(const std::string &file) {
     std::ifstream file_stream(file);
@@ -47,6 +56,11 @@ Configuration::Configuration(const std::string &file) {
             this->handlers.insert({authentication, create_slack_handler(handler_options)});
         } else if (handler_name == "stdout") {
             this->handlers.insert({authentication, new StdoutHandler()});
+        } else if (handler_name == "mqtt") {
+        printf("get config\n");
+            MqttConfiguration *configuration = new MqttConfiguration(handler_options);
+        printf("create mqqtHandler\n");
+            this->handlers.insert({authentication, new MqttHandler(configuration)});
         } else {
             throw_error("Unknown handler: " + handler_name);
         }
@@ -60,4 +74,11 @@ SlackHandler *create_slack_handler(json options) {
     auto *slack_configuration = new SlackConfiguration(channel, webhook);
 
     return new SlackHandler(slack_configuration);
+}
+
+MqttHandler *create_mqtt_handler(json options) {
+
+    auto *mqtt_configuration = new MqttConfiguration(options);
+
+    return new MqttHandler(mqtt_configuration);
 }
