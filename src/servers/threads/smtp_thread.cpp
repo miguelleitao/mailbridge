@@ -91,12 +91,19 @@ void SmtpThread::handle_helo() {
 }
 
 void SmtpThread::handle_mail() {
+    int pos = this->last_line.find(':');
+    if ( pos ) pos += 1;
+std::string tline = this->last_line.substr(pos);
+    std::string sender = trim(tline, " <>\t\n\r\v");
+
+    this->message->set_sender(sender);
+/*
     size_t startpos = this->last_line.find('<');
     size_t endpos = this->last_line.find('>');
     std::string sender(this->last_line.substr(startpos + 1, endpos - startpos - 1));
+    */
 
-    this->message->set_sender(sender);
-
+printf("SmtpThread::handle_mail. sender: '%s'\n", sender.c_str());
     client_send("250 OK\n");
 }
 

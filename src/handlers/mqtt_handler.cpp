@@ -17,13 +17,19 @@ void MqttHandler::handle(SmtpMessage *message) {
               << "Message: " << message->get_message() << std::endl;
     */
 
-    int pos1 = message->get_sender().find(':');
-    int pos2 = message->get_sender().find('@', pos1);
-    int len2 = message->get_sender().length() - pos2 - 3;
-    
-    std::string topic =  message->get_sender().substr(pos2+1, len2) + "/" +
-    			 message->get_sender().substr(pos1+2,pos2-pos1-2) + "/" +
-    			 message->get_subject(); 
+    //int pos1 = message->get_sender().find(':');
+    //if ( pos1 ) pos1 += 2;
+    std::string topic = "";
+    int pos2 = message->get_sender().find('@');
+    if ( pos2 ) {
+        int len2 = message->get_sender().length() - pos2 - 3;
+        topic = message->get_sender().substr(pos2+1, len2+2) + "/" +
+                message->get_sender().substr(0,pos2);
+    }
+    else {
+	topic =  message->get_sender();
+    }
+    topic += "/" + message->get_subject(); 
     //log_info("topic: " + topic + ".");
     SendOne(topic.c_str(), message->get_message().c_str(), 1, 0);
     log_info("Handled message using mqtt.");

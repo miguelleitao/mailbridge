@@ -28,4 +28,14 @@ std::vector<std::string> split_string(const std::string &input, char delimiter);
  */
 std::vector<std::string> split_string(const std::string &input, const std::string& delimiter);
 
+static const char* ws = " \t\n\r\v";
+std::string& rtrim(std::string&, const char* = ws );
+std::string& ltrim(std::string&, const char* = ws );
+std::string&  trim(std::string&, const char* = ws );
+
+
+
 #endif /* MAILBRIDGE_UTIL_STRING_UTIL_H */
+
+
+
