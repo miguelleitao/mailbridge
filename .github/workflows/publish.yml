@@ -1,4 +1,4 @@
-name: Publish Docker image
+name: Publish snapshot image
 
 on:
   push:
@@ -8,13 +8,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v3
+    
     - name: Login to the container registry
       run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+    
     - name: Download the latest image for caching
       run: docker pull ghcr.io/thepieterdc/mailbridge:latest
+    
     - name: Build the new image
       run: docker build . -t ghcr.io/thepieterdc/mailbridge:latest --cache-from ghcr.io/thepieterdc/mailbridge:latest
+    
     - name: Push the new image
       run: docker push ghcr.io/thepieterdc/mailbridge:latest
