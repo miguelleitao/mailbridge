@@ -57,9 +57,7 @@ Configuration::Configuration(const std::string &file) {
         } else if (handler_name == "stdout") {
             this->handlers.insert({authentication, new StdoutHandler()});
         } else if (handler_name == "mqtt") {
-        printf("get config\n");
             MqttConfiguration *configuration = new MqttConfiguration(handler_options);
-        printf("create mqqtHandler\n");
             this->handlers.insert({authentication, new MqttHandler(configuration)});
         } else {
             throw_error("Unknown handler: " + handler_name);
