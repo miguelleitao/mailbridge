@@ -9,7 +9,7 @@ LABEL org.opencontainers.image.source https://github.com/thepieterdc/mailbridge
 ################################################################################
 
 # Install system packages.
-RUN apk add --update --no-cache build-base curl-dev
+RUN apk add --update --no-cache build-base curl-dev mosquitto-dev
 RUN apk add --update --no-cache --virtual build-deps cmake
 
 ################################################################################
@@ -43,3 +43,4 @@ EXPOSE 2525
 
 # Start the application.
 CMD ["./mailbridge"]
+
