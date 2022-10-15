@@ -13,7 +13,7 @@
 #include "../messages/smtp_message.h"
 
 /**
- * Handles received incoming emails by posting them to stdout.
+ * Handles received incoming emails by posting them to MQTT.
  */
 class MqttHandler : public Handler {
 private:
