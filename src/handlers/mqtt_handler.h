@@ -51,7 +51,7 @@ public:
 	int rc = mosquitto_connect(mosq, hostname.c_str(), port, 60);
 	if(rc != MOSQ_ERR_SUCCESS){
 		mosquitto_destroy(mosq);
-		fprintf(stderr, "Error: %s\n", mosquitto_strerror(rc));
+		fprintf(stderr, "Error connecting to MQTT broker '%s': %s\n", hostname.c_str(), mosquitto_strerror(rc));
 		return;
 	}
 	fprintf(stderr, "Connecting to %s:%d\n", hostname.c_str(), port);
