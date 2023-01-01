@@ -55,7 +55,7 @@ public:
 		return;
 	}
 	fprintf(stderr, "Connecting to %s:%d\n", hostname.c_str(), port);
-        mosquitto_loop_start(	mosq	);
+        mosquitto_loop_start(mosq);
     }
     void on_connect(struct mosquitto *mosq, void *obj, int reason_code) {
    
