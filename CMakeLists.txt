@@ -45,7 +45,7 @@ file(GLOB util_SRC
     "src/util/*.cpp")
 
 add_compile_options(-Wall -Wextra -Wpedantic -Wno-missing-field-initializers -Wno-unused-parameter)
-link_directories(/home/jml/smtp-client/build/release)
+link_directories(../smtp-client/build/release)
 add_executable(mailbridge src/main.cpp ${configurations_SRC} ${handlers_SRC} ${messages_SRC} ${servers_SRC} ${util_SRC})
 target_link_libraries(mailbridge curl mosquitto pthread smtp ssl crypto)
 
