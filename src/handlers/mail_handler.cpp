@@ -8,6 +8,8 @@
 #include "mail_handler.h"
 #include "../util/logging_util.h"
 
+
+
 void MailHandler::handle(SmtpMessage *message) {
     /*
     std::cout << "New email message received." << std::endl
