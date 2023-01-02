@@ -17,13 +17,19 @@ class Authentication {
 private:
     std::string password;
     std::string username;
+    std::string origin;
+    std::string destiny;
 public:
     /**
-     * Authentication constructor.
+     * Authentication constructors.
      */
     Authentication(std::string username, std::string password) :
             password(std::move(password)), username(std::move(username)) {};
 
+    Authentication(std::string username, std::string password, std::string origin, std::string destiny) :
+            password(std::move(password)), username(std::move(username)),
+            origin(std::move(origin)), destiny(std::move(destiny)) {};
+            
     /**
      * Authentication destructor.
      */
