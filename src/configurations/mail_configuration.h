@@ -46,8 +46,9 @@ public:
         mailUsername     = options["mailUsername"].get<std::string>();
         mailPassword     = options["mailPassword"].get<std::string>();
         mailPort         = options["mailPort"].get<int>();
-        
+        std::cout << "getreciver\n";
         mailReceiver     = options["mailReceiver"].get<std::string>();
+        std::cout << "getsender\n";
         mailSender       = options["mailSender"].get<std::string>();
         mailReceiverName = options["mailReceiverName"].get<std::string>();
         mailSenderName   = options["mailSenderName"].get<std::string>();
