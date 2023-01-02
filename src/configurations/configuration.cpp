@@ -42,6 +42,12 @@ MqttHandler *create_mqtt_handler(json options);
  */
 MailHandler *create_mail_handler(json options);
 
+std::string get_config_string(json block, std::string name, bool required=false) {
+    if ( block[name] != nullptr ) return block[name].get<std::string>();
+    if ( required ) std::cout << "Error: Required parameter '" << name << "' not found.\n";
+    return std::string();
+}
+
 Configuration::Configuration(const std::string &file) {
     std::ifstream file_stream(file);
     json j;
@@ -54,7 +60,8 @@ Configuration::Configuration(const std::string &file) {
 
     json handlers_raw = j["handlers"];
     for (auto &handler_raw : handlers_raw) {
-        std::string handler_name = handler_raw["handler"].get<std::string>();
+        //std::string handler_name = handler_raw["handler"].get<std::string>();
+        std::string handler_name = get_config_string(handler_raw, "handler", true);
         json handler_options = handler_raw["options"];
         std::string password = handler_raw["password"].get<std::string>();
         std::string username = handler_raw["username"].get<std::string>();
