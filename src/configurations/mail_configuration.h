@@ -44,9 +44,9 @@ public:
 */
 
     MailConfiguration(json options) {
-        mailHostname     = options["mailHostname"].get<std::string>();
-        mailUsername     = options["mailUsername"].get<std::string>();
-        mailPassword     = options["mailPassword"].get<std::string>();
+        mailHostname     = get_config_string(options, "mailHostname");
+        mailUsername     = get_config_string(options, "mailUsername");
+        mailPassword     = get_config_string(options, "mailPassword");
         mailPort         = options["mailPort"].get<int>();
         mailReceiver     = get_config_string(options, "mailReceiver");
         mailSender       = get_config_string(options, "mailSender");
