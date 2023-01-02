@@ -23,6 +23,11 @@ private:
     std::string mailUsername;
     std::string mailPassword;
     int		mailPort;
+    std::string mailReceiver;
+    std::string mailSender;
+    std::string mailReceiverName;
+    std::string mailSenderName;
+    std::string mailSubject;
 public:
     /**
      * MailConfiguration constructor.
@@ -37,10 +42,17 @@ public:
 */
 
     MailConfiguration(json options) {
-        mailHostname = options["mailHostname"].get<std::string>();
-        mailUsername = options["mailUsername"].get<std::string>();
-        mailPassword = options["mailPassword"].get<std::string>();
-        mailPort     = options["mailPort"].get<int>();
+        mailHostname     = options["mailHostname"].get<std::string>();
+        mailUsername     = options["mailUsername"].get<std::string>();
+        mailPassword     = options["mailPassword"].get<std::string>();
+        mailPort         = options["mailPort"].get<int>();
+        
+        mailReceiver     = options["mailReceiver"].get<std::string>();
+        mailSender       = options["mailSender"].get<std::string>();
+        mailReceiverName = options["mailReceiverName"].get<std::string>();
+        mailSenderName   = options["mailSenderName"].get<std::string>();
+        
+        mailSubject      = options["mailSubject"].get<std::string>();
     }
     
     /**
@@ -82,6 +94,47 @@ public:
      */
     int get_mailPort() {
         return this->mailPort;
+    }
+    
+    /**
+     * Gets the Mail Receiver.
+     *
+     * @return receiver
+     */
+    std::string get_mailReceiver() {
+        return this->mailReceiver;
+    }
+    /**
+     * Gets the Mail Receiver Name.
+     *
+     * @return receiver name
+     */
+    std::string get_mailReceiverName() {
+        return this->mailReceiverName;
+    }
+    /**
+     * Gets the Mail Sender.
+     *
+     * @return sender
+     */
+    std::string get_mailSender() {
+        return this->mailSender;
+    }
+    /**
+     * Gets the Mail Sender Name.
+     *
+     * @return sender name
+     */
+    std::string get_mailSenderName() {
+        return this->mailSenderName;
+    }
+    /**
+     * Gets the Mail Subject.
+     *
+     * @return subject
+     */
+    std::string get_mailSubject() {
+        return this->mailSubject;
     }
 };
 
