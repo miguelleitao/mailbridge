@@ -16,8 +16,6 @@
 
 using json = nlohmann::json;
 
-std::string get_config_string(json block, std::string name, bool required);
-
 /**
  * Application configuration.
  */

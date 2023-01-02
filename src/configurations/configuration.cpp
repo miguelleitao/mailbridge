@@ -42,7 +42,7 @@ MqttHandler *create_mqtt_handler(json options);
  */
 MailHandler *create_mail_handler(json options);
 
-std::string get_config_string(json block, std::string name, bool required=false) {
+std::string get_config_string(json block, std::string name, bool required) {
     if ( block[name] != nullptr ) return block[name].get<std::string>();
     if ( required ) std::cout << "Error: Required parameter '" << name << "' not found.\n";
     return std::string();

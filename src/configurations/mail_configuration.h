@@ -13,7 +13,7 @@
 #include <utility>
 
 using json = nlohmann::json;
-std::string get_config_string(json block, std::string name, bool required);
+std::string get_config_string(json block, std::string name, bool required=false);
 
 
 /**
@@ -48,17 +48,11 @@ public:
         mailUsername     = options["mailUsername"].get<std::string>();
         mailPassword     = options["mailPassword"].get<std::string>();
         mailPort         = options["mailPort"].get<int>();
-        std::cout << "getreciver\n";
-        if ( options["mailReceiver"] != nullptr) 
-        	mailReceiver     = options["mailReceiver"].get<std::string>();
-        std::cout << "getsender\n";
-        mailSender = get_config_string(options, "mailSender", false);
-        //mailSender       = options["mailSender"].get<std::string>();
-        std::cout << "getreceivername\n";
-        mailReceiverName = options["mailReceiverName"].get<std::string>();
-        mailSenderName   = options["mailSenderName"].get<std::string>();
-        
-        mailSubject      = options["mailSubject"].get<std::string>();
+        mailReceiver     = get_config_string(options, "mailReceiver");
+        mailSender       = get_config_string(options, "mailSender");
+        mailReceiverName = get_config_string(options, "mailReceiverName");
+        mailSenderName   = get_config_string(options, "mailSenderName");    
+        mailSubject      = get_config_string(options, "mailSubject");
     }
     
     /**
