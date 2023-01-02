@@ -19,6 +19,8 @@ void MailHandler::handle(SmtpMessage *message) {
               << "Message: " << message->get_message() << std::endl;
     */
 
+    SendOne(message);
+/*
     std::string body = "";
     int pos2 = message->get_sender().find('@');
     if ( pos2 ) {
@@ -31,5 +33,6 @@ void MailHandler::handle(SmtpMessage *message) {
     }
     body += "/" + message->get_subject(); 
     SendOne(body.c_str(), message->get_message().c_str(), 1, 0);
+*/
     log_info("Handled message using mail.");
 }
