@@ -13,6 +13,7 @@
 #include "../handlers/slack_handler.h"
 #include "../handlers/stdout_handler.h"
 #include "../handlers/mqtt_handler.h"
+#include "../handlers/mail_handler.h"
 #include "../util/logging_util.h"
 
 using json = nlohmann::json;
@@ -32,6 +33,14 @@ SlackHandler *create_slack_handler(json options);
  * @return the Mqtt handler
  */
 MqttHandler *create_mqtt_handler(json options);
+
+/**
+ * Creates a Mail handler from the specified options.
+ *
+ * @param options the handler options
+ * @return the Mail handler
+ */
+MailHandler *create_mail_handler(json options);
 
 Configuration::Configuration(const std::string &file) {
     std::ifstream file_stream(file);
@@ -59,8 +68,11 @@ Configuration::Configuration(const std::string &file) {
         } else if (handler_name == "mqtt") {
             MqttConfiguration *configuration = new MqttConfiguration(handler_options);
             this->handlers.insert({authentication, new MqttHandler(configuration)});
+        } else if (handler_name == "mail") {
+            MailConfiguration *configuration = new MailConfiguration(handler_options);
+            this->handlers.insert({authentication, new MailHandler(configuration)});
         } else {
-            throw_error("Unknown handler: " + handler_name);
+            throw_error("Unknown handler: " + handler_name + ".");
         }
     }
 }
@@ -79,4 +91,11 @@ MqttHandler *create_mqtt_handler(json options) {
     auto *mqtt_configuration = new MqttConfiguration(options);
 
     return new MqttHandler(mqtt_configuration);
+}
+
+MailHandler *create_mail_handler(json options) {
+
+    auto *mail_configuration = new MailConfiguration(options);
+
+    return new MailHandler(mail_configuration);
 }
