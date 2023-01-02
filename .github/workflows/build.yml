@@ -9,7 +9,7 @@ jobs:
       
       - run: sudo apt-get update
       
-      - run: sudo apt-get -y install libcurl4-openssl-dev
+      - run: sudo apt-get -y install libcurl4-openssl-dev libmosquitto-dev
       
       - run: cmake .
       
