@@ -20,19 +20,49 @@ void MailHandler::handle(SmtpMessage *message) {
     */
 
     SendOne(message);
-/*
-    std::string body = "";
-    int pos2 = message->get_sender().find('@');
-    if ( pos2 ) {
-        int len2 = message->get_sender().length() - pos2 - 3;
-        body = message->get_sender().substr(pos2+1, len2+2) + "/" +
-                message->get_sender().substr(0,pos2);
-    }
-    else {
-	body =  message->get_sender();
-    }
-    body += "/" + message->get_subject(); 
-    SendOne(body.c_str(), message->get_message().c_str(), 1, 0);
-*/
+
     log_info("Handled message using mail.");
+}
+
+void MailHandler::Send(SmtpMessage *msg) {        
+        #define MAIL_SERVER              config->get_mailHostname().c_str()
+        #define MAIL_PORT                std::to_string(config->get_mailPort()).c_str()
+        #define MAIL_CONNECTION_SECURITY SMTP_SECURITY_TLS
+        #define MAIL_FLAGS               (SMTP_DEBUG         | \
+                                          SMTP_NO_CERT_VERIFY) /* Do not verify cert. */
+        #define MAIL_CAFILE              NULL
+        #define MAIL_AUTH                SMTP_AUTH_PLAIN
+        #define MAIL_USER                config->get_mailUsername().c_str()
+        #define MAIL_PASS                config->get_mailPassword().c_str()
+        #define MAIL_FROM                "jmlHome@gmail.com"
+        #define MAIL_FROM_NAME           "JML Home"
+        #define MAIL_SUBJECT             msg->get_subject().c_str()
+        #define MAIL_BODY                msg->get_message().c_str()
+        #define MAIL_TO                  msg->get_receiver().c_str()
+        #define MAIL_TO_NAME             "Moradores"
+        struct smtp *smtp;
+        int rc;
+        rc = smtp_open( MAIL_SERVER, MAIL_PORT, MAIL_CONNECTION_SECURITY, (smtp_flag)MAIL_FLAGS, MAIL_CAFILE, &smtp);
+        if ( rc== SMTP_STATUS_OK )
+	    rc = smtp_auth(smtp, MAIL_AUTH, MAIL_USER, MAIL_PASS);
+	rc = smtp_address_add(smtp, SMTP_ADDRESS_FROM, MAIL_FROM, MAIL_FROM_NAME);
+        rc = smtp_address_add(smtp, SMTP_ADDRESS_TO, MAIL_TO, MAIL_TO_NAME);
+        rc = smtp_header_add(smtp, "Subject", MAIL_SUBJECT);
+        rc = smtp_mail(smtp, MAIL_BODY);
+        rc = smtp_close(smtp);
+}
+
+void MailHandler::SendOne(SmtpMessage *msg) {
+        if ( config->get_mailReceiver() != "" ) {
+            std::cout << " msg Mail Receiver: " << msg->get_receiver() << "\n";
+            msg->set_receiver(config->get_mailReceiver());
+            std::cout << " conf Mail Receiver: " << config->get_mailReceiver() << "\n";
+            std::cout << " msg Mail Receiver: " << msg->get_receiver() << "\n";
+        }
+        else
+            std::cout << "No config Mail Receiver\n";
+        Init();
+        //Send(topic, msg, qos, retain);
+        Send(msg);
+        Disconnect();
 }
