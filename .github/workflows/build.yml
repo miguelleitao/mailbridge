@@ -10,6 +10,8 @@ jobs:
       - run: sudo apt-get update
       
       - run: sudo apt-get -y install libcurl4-openssl-dev libmosquitto-dev
+      - run: git clone https://github.com/miguelleitao/smtp-client.git
+      - run: cd smtp-client; make; sudo make install
       
       - run: cmake .
       
