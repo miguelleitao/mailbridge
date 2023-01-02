@@ -37,9 +37,12 @@ public:
 */
 
     MailConfiguration(json options) {
+std::cout << "vai ler mail config\n ";
+
         mailHostname = options["mailHostname"].get<std::string>();
         mailUsername = options["mailUsername"].get<std::string>();
         mailPassword = options["mailPassword"].get<std::string>();
+std::cout << "  vai ler port mail config\n ";
         mailPort     = options["mailPort"].get<int>();
 
 std::cout << "leu mail config\n ";
