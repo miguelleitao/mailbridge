@@ -19,17 +19,17 @@ void MailHandler::handle(SmtpMessage *message) {
               << "Message: " << message->get_message() << std::endl;
     */
 
-    std::string topic = "";
+    std::string body = "";
     int pos2 = message->get_sender().find('@');
     if ( pos2 ) {
         int len2 = message->get_sender().length() - pos2 - 3;
-        topic = message->get_sender().substr(pos2+1, len2+2) + "/" +
+        body = message->get_sender().substr(pos2+1, len2+2) + "/" +
                 message->get_sender().substr(0,pos2);
     }
     else {
-	topic =  message->get_sender();
+	body =  message->get_sender();
     }
-    topic += "/" + message->get_subject(); 
-    SendOne(topic.c_str(), message->get_message().c_str(), 1, 0);
+    body += "/" + message->get_subject(); 
+    SendOne(body.c_str(), message->get_message().c_str(), 1, 0);
     log_info("Handled message using mail.");
 }
