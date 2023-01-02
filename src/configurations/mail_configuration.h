@@ -41,6 +41,8 @@ public:
         mailUsername = options["mailUsername"].get<std::string>();
         mailPassword = options["mailPassword"].get<std::string>();
         mailPort     = options["mailPort"].get<int>();
+
+std::cout << "leu mail config\n ";
     }
     
     /**
