@@ -55,8 +55,7 @@ void MailHandler::SendOne(SmtpMessage *msg) {
             std::cout << " conf Mail Receiver: " << config->get_mailReceiver() << "\n";
             std::cout << " msg Mail Receiver: " << msg->get_receiver() << "\n";
         }
-        else
-            std::cout << "No config Mail Receiver\n";
+
         if ( config->get_mailSender() != "" )  msg->set_sender(config->get_mailSender());
         if ( config->get_mailSubject() != "" ) msg->set_subject(config->get_mailSubject());
         
