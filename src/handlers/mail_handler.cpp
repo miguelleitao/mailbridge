@@ -8,8 +8,6 @@
 #include "mail_handler.h"
 #include "../util/logging_util.h"
 
-
-
 void MailHandler::handle(SmtpMessage *message) {
     /*
     std::cout << "New email message received." << std::endl
@@ -18,9 +16,7 @@ void MailHandler::handle(SmtpMessage *message) {
               << "Subject: " << message->get_subject() << std::endl
               << "Message: " << message->get_message() << std::endl;
     */
-
     SendOne(message);
-
     log_info("Handled message using mail.");
 }
 
@@ -34,12 +30,12 @@ void MailHandler::Send(SmtpMessage *msg) {
         #define MAIL_AUTH                SMTP_AUTH_PLAIN
         #define MAIL_USER                config->get_mailUsername().c_str()
         #define MAIL_PASS                config->get_mailPassword().c_str()
-        #define MAIL_FROM                "jmlHome@gmail.com"
-        #define MAIL_FROM_NAME           "JML Home"
+        #define MAIL_FROM                msg->get_sender().c_str()
+        #define MAIL_FROM_NAME           "mail_handler"
         #define MAIL_SUBJECT             msg->get_subject().c_str()
         #define MAIL_BODY                msg->get_message().c_str()
         #define MAIL_TO                  msg->get_receiver().c_str()
-        #define MAIL_TO_NAME             "Moradores"
+        #define MAIL_TO_NAME             "target"
         struct smtp *smtp;
         int rc;
         rc = smtp_open( MAIL_SERVER, MAIL_PORT, MAIL_CONNECTION_SECURITY, (smtp_flag)MAIL_FLAGS, MAIL_CAFILE, &smtp);
@@ -61,6 +57,9 @@ void MailHandler::SendOne(SmtpMessage *msg) {
         }
         else
             std::cout << "No config Mail Receiver\n";
+        if ( config->get_mailSender() != "" )  msg->set_sender(config->get_mailSender());
+        if ( config->get_mailSubject() != "" ) msg->set_subject(config->get_mailSubject());
+        
         Init();
         //Send(topic, msg, qos, retain);
         Send(msg);
