@@ -41,14 +41,31 @@ MqttHandler *create_mqtt_handler(json options);
  * @return the Mail handler
  */
 MailHandler *create_mail_handler(json options);
-
+/*
 std::string get_config_string(std::string &var, json block, std::string name, bool required) {
     if ( block[name] != nullptr )
     	var = block[name].get<std::string>();
     if ( required ) std::cout << "Error: Required parameter '" << name << "' not found.\n";
     return var;
 }
+*/
 
+std::string get_config_string(auto &var, json block, std::string name, bool required) {
+    typeof(var) c;
+    if ( block[name] != nullptr )
+    	var = block[name].get<std::string>();
+    if ( required ) std::cout << "Error: Required parameter '" << name << "' not found.\n";
+    return var;
+}
+/*
+std::string get_config_string_v2(std::string &var, json block, std::string name, bool required) {
+    return get_config_item(var, block, name, required);
+}
+
+int get_config_int(int &var, json block, std::string name, bool required) {
+    return get_config_item(var, block, name, required);
+}
+*/
 Configuration::Configuration(const std::string &file) {
     std::ifstream file_stream(file);
     json j;

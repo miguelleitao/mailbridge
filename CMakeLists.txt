@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5.1)
-project(mailbridge VERSION "2.0.1")
+project(mailbridge VERSION "2.0.2")
 
 if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
@@ -8,8 +8,8 @@ endif ()
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99")
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20 -Wno-restrict")
 
 set(CMAKE_C_FLAGS_DEBUG "-g -DIS_DEBUG -fdiagnostics-show-option")
 set(CMAKE_C_FLAGS_RELEASE "-O3 -s")

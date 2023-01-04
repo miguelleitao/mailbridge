@@ -32,18 +32,9 @@ public:
     explicit MailHandler(MailConfiguration *configuration) : Handler(), config(configuration) {
         
     };
-    void Init() {
-	//std::string username = config->get_mailUsername();
-	//std::string password = config->get_mailPassword();
-	//printf("Using '%s' '%s'\n", username.c_str(), password.c_str());
-	//std::string hostname = config->get_mailHostname();
-    }
+
   
     void Send(SmtpMessage *msg);
-    
-    void Disconnect() {
-    	
-    }
 
     void SendOne(SmtpMessage *msg) ;
     /**
