@@ -11,10 +11,9 @@
 #include <json.hpp>
 #include <string>
 #include <utility>
+#include "configuration.h"
 
 using json = nlohmann::json;
-std::string get_config_string(json block, std::string name, bool required=false);
-
 
 /**
  * Configuration for a Mail handler.
@@ -44,15 +43,15 @@ public:
 */
 
     MailConfiguration(json options) {
-        mailHostname     = get_config_string(options, "mailHostname");
-        mailUsername     = get_config_string(options, "mailUsername");
-        mailPassword     = get_config_string(options, "mailPassword");
+        mailHostname     = get_config_string(mailHostname, options, "mailHostname", "localhost");
+        mailUsername     = get_config_string(mailUsername, options, "mailUsername");
+        mailPassword     = get_config_string(mailPassword, options, "mailPassword");
         mailPort         = options["mailPort"].get<int>();
-        mailReceiver     = get_config_string(options, "mailReceiver");
-        mailSender       = get_config_string(options, "mailSender");
-        mailReceiverName = get_config_string(options, "mailReceiverName");
-        mailSenderName   = get_config_string(options, "mailSenderName");    
-        mailSubject      = get_config_string(options, "mailSubject");
+        mailReceiver     = get_config_string(mailReceiver, options, "mailReceiver");
+        mailSender       = get_config_string(mailSender, options, "mailSender");
+        mailReceiverName = get_config_string(mailReceiverName, options, "mailReceiverName");
+        mailSenderName   = get_config_string(mailSenderName, options, "mailSenderName");    
+        mailSubject      = get_config_string(mailSubject, options, "mailSubject");
     }
     
     /**

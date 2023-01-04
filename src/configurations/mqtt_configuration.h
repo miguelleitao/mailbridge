@@ -11,8 +11,10 @@
 #include <json.hpp>
 #include <string>
 #include <utility>
+#include "configuration.h"
 
 using json = nlohmann::json;
+
 
 /**
  * Configuration for a Mqtt handler.
@@ -37,9 +39,12 @@ public:
 */
 
     MqttConfiguration(json options) {
-        mqttHostname = options["mqttHostname"].get<std::string>();
-        mqttUsername = options["mqttUsername"].get<std::string>();
-        mqttPassword = options["mqttPassword"].get<std::string>();
+        mqttHostname = get_config_string(mqttHostname, options, "mqttHostname", "localhost");
+        //options["mqttHostname"].get<std::string>();
+        //mqttUsername = options["mqttUsername"].get<std::string>();
+        mqttUsername = get_config_string(mqttUsername, options, "mqttUsername");
+        //mqttPassword = options["mqttPassword"].get<std::string>();
+        mqttPassword = get_config_string(mqttPassword, options, "mqttPassword");
         mqttPort     = options["mqttPort"].get<int>();
     }
     

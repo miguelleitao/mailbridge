@@ -42,10 +42,11 @@ MqttHandler *create_mqtt_handler(json options);
  */
 MailHandler *create_mail_handler(json options);
 
-std::string get_config_string(json block, std::string name, bool required) {
-    if ( block[name] != nullptr ) return block[name].get<std::string>();
+std::string get_config_string(std::string &var, json block, std::string name, bool required) {
+    if ( block[name] != nullptr )
+    	var = block[name].get<std::string>();
     if ( required ) std::cout << "Error: Required parameter '" << name << "' not found.\n";
-    return std::string();
+    return var;
 }
 
 Configuration::Configuration(const std::string &file) {
@@ -54,6 +55,7 @@ Configuration::Configuration(const std::string &file) {
     file_stream >> j;
 
     this->name = j["name"].get<std::string>();
+    name = get_config_string(name, j, "name", true);
     this->port = j["port"].get<std::uint_fast16_t>();
 
     this->handlers = std::map<Authentication *, Handler *>();
@@ -61,10 +63,13 @@ Configuration::Configuration(const std::string &file) {
     json handlers_raw = j["handlers"];
     for (auto &handler_raw : handlers_raw) {
         //std::string handler_name = handler_raw["handler"].get<std::string>();
-        std::string handler_name = get_config_string(handler_raw, "handler", true);
+        std::string handler_name = get_config_string(handler_name, handler_raw, "handler", true);
         json handler_options = handler_raw["options"];
-        std::string password = handler_raw["password"].get<std::string>();
-        std::string username = handler_raw["username"].get<std::string>();
+        //std::string password = handler_raw["password"].get<std::string>();
+        std::string password = get_config_string(password, handler_raw, "password");
+        //handler_raw["password"].get<std::string>();
+        std::string username = get_config_string(username, handler_raw, "username");
+        //handler_raw["username"].get<std::string>();
 
         auto *authentication = new Authentication(username, password);
 

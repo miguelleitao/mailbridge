@@ -15,6 +15,7 @@
 #include "../handlers/handler.h"
 
 using json = nlohmann::json;
+std::string get_config_string(std::string &var, json block, std::string name, bool required=false);
 
 /**
  * Application configuration.
