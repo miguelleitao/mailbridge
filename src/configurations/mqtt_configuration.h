@@ -39,13 +39,15 @@ public:
 */
 
     MqttConfiguration(json options) {
-        mqttHostname = get_config_string(mqttHostname, options, "mqttHostname", "localhost");
-        //options["mqttHostname"].get<std::string>();
-        //mqttUsername = options["mqttUsername"].get<std::string>();
-        mqttUsername = get_config_string(mqttUsername, options, "mqttUsername");
-        //mqttPassword = options["mqttPassword"].get<std::string>();
-        mqttPassword = get_config_string(mqttPassword, options, "mqttPassword");
-        mqttPort     = options["mqttPort"].get<int>();
+        // defaults
+        mqttHostname = "localhost";
+        mqttPort = 1883;
+        
+        // Get config values
+        mqttHostname = get_config_item(mqttHostname, options, "mqttHostname");
+        mqttUsername = get_config_item(mqttUsername, options, "mqttUsername");
+        mqttPassword = get_config_item(mqttPassword, options, "mqttPassword");
+        mqttPort     = get_config_item(mqttPort,     options, "mqttPort");
     }
     
     /**

@@ -43,15 +43,18 @@ public:
 */
 
     MailConfiguration(json options) {
-        mailHostname     = get_config_string(mailHostname, options, "mailHostname", "localhost");
-        mailUsername     = get_config_string(mailUsername, options, "mailUsername");
-        mailPassword     = get_config_string(mailPassword, options, "mailPassword");
-        mailPort         = options["mailPort"].get<int>();
-        mailReceiver     = get_config_string(mailReceiver, options, "mailReceiver");
-        mailSender       = get_config_string(mailSender, options, "mailSender");
-        mailReceiverName = get_config_string(mailReceiverName, options, "mailReceiverName");
-        mailSenderName   = get_config_string(mailSenderName, options, "mailSenderName");    
-        mailSubject      = get_config_string(mailSubject, options, "mailSubject");
+        // defaults
+        mailHostname = "localhost";
+        mailPort = 443;
+        mailHostname     = get_config_item(mailHostname,     options, "mailHostname");
+        mailUsername     = get_config_item(mailUsername,     options, "mailUsername");
+        mailPassword     = get_config_item(mailPassword,     options, "mailPassword");
+        mailPort         = get_config_item(mailPort,         options, "mailPort");
+        mailReceiver     = get_config_item(mailReceiver,     options, "mailReceiver");
+        mailSender       = get_config_item(mailSender,       options, "mailSender");
+        mailReceiverName = get_config_item(mailReceiverName, options, "mailReceiverName");
+        mailSenderName   = get_config_item(mailSenderName,   options, "mailSenderName");    
+        mailSubject      = get_config_item(mailSubject,      options, "mailSubject");
     }
     
     /**

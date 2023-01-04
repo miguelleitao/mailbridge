@@ -50,6 +50,17 @@ std::string get_config_string(std::string &var, json block, std::string name, bo
 }
 */
 
+/*
+template<typename T>
+    T get_config_item(T &var, json block, std::string name, bool required) {
+        if ( block[name] != nullptr )
+    	    var = block[name].get<std::string>();
+        if ( required ) std::cout << "Error: Required parameter '" << name << "' not found.\n";
+        return var;
+    }
+*/
+
+
 std::string get_config_string(auto &var, json block, std::string name, bool required) {
     typeof(var) c;
     if ( block[name] != nullptr )
@@ -72,7 +83,7 @@ Configuration::Configuration(const std::string &file) {
     file_stream >> j;
 
     this->name = j["name"].get<std::string>();
-    name = get_config_string(name, j, "name", true);
+    name = get_config_item(name, j, "name", true);
     this->port = j["port"].get<std::uint_fast16_t>();
 
     this->handlers = std::map<Authentication *, Handler *>();
