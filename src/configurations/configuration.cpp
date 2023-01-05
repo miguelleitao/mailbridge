@@ -47,29 +47,39 @@ Configuration::Configuration(const std::string &file) {
     json j;
     file_stream >> j;
 
+    log_info("Reading Configuration.");
     //this->name = j["name"].get<std::string>();
     get_config_item(name, j, "name", true);
+    log_info("  Mailbridge server name: " + name);
     //this->port = j["port"].get<std::uint_fast16_t>();
     get_config_item(port, j, "port");
     
     handlers = std::map<Authentication *, Handler *>();
 
-    //json handlers_raw = j["handlers"];
-    json handlers_raw;
-    get_config_item(handlers_raw, j, "handlers", true);
+    json handlers_raw = j["handlers"];
+    //json handlers_raw;
+    //get_config_item(handlers_raw, j, "handlers", true);
+    
+    log_info("Got handlers block.");
+    //log_info("  handlers_raw: " + handlers_raw);
     
     for (auto &handler_raw : handlers_raw) {
         //std::string handler_name = handler_raw["handler"].get<std::string>();
-        std::string handler_name = get_config_item(handler_name, handler_raw, "handler", true);
+        std::string handler_name;
+        get_config_item(handler_name, handler_raw, "handler", true);
+        log_info("  Reading configuration for handler " + handler_name + ".");
         json handler_options = handler_raw["options"];
         //std::string password = handler_raw["password"].get<std::string>();
-        std::string password = get_config_item(password, handler_raw, "password");
+        std::string password;
+        password = get_config_item(password, handler_raw, "password");
         //handler_raw["password"].get<std::string>();
-        std::string username = get_config_item(username, handler_raw, "username");
+        std::string username;
+        username = get_config_item(username, handler_raw, "username");
         //handler_raw["username"].get<std::string>();
 
         auto *authentication = new Authentication(username, password);
-
+        
+        log_info("  Reading configuration options for handler " + handler_name + ".");
         if (handler_name == "slack") {
             this->handlers.insert({authentication, create_slack_handler(handler_options)});
         } else if (handler_name == "stdout") {
@@ -83,6 +93,7 @@ Configuration::Configuration(const std::string &file) {
         } else {
             throw_error("Unknown handler: " + handler_name + ".");
         }
+        log_info("  Configuration for handler " + handler_name + " read.");
     }
 }
 

@@ -23,7 +23,9 @@ template<typename T>
     T get_config_item(T &var, json block, std::string name, bool required= false) {
         if ( block[name] != nullptr )
     	    var = block[name].get<T>();
-        if ( required ) std::cout << "Error: Required parameter '" << name << "' not found.\n";
+        else
+            if ( required ) 
+                std::cout << "Error: Required parameter '" << name << "' not found.\n";
         return var;
     }
 

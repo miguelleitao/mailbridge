@@ -154,3 +154,5 @@ mailbridge
 
 # Own configuration
 conf/configuration.json
+conf/*.conf
+~conf/configuration.default.json
