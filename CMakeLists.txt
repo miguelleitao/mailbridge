@@ -8,8 +8,10 @@ endif ()
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99")
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20 -Wno-restrict")
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 ")
+
+#-Wno-restrict")
 
 set(CMAKE_C_FLAGS_DEBUG "-g -DIS_DEBUG -fdiagnostics-show-option")
 set(CMAKE_C_FLAGS_RELEASE "-O3 -s")

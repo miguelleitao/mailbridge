@@ -16,7 +16,7 @@
 
 using json = nlohmann::json;
 //std::string get_config_string(std::string &var, json block, std::string name, bool required=false);
-std::string get_config_string(auto &var, json block, std::string name, bool required=false);
+//std::string get_config_string(auto &var, json block, std::string name, bool required=false);
 //auto        get_config_item(  auto        &var, json block, std::string name, bool required=false); 
 
 template<typename T>

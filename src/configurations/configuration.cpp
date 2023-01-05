@@ -41,62 +41,31 @@ MqttHandler *create_mqtt_handler(json options);
  * @return the Mail handler
  */
 MailHandler *create_mail_handler(json options);
-/*
-std::string get_config_string(std::string &var, json block, std::string name, bool required) {
-    if ( block[name] != nullptr )
-    	var = block[name].get<std::string>();
-    if ( required ) std::cout << "Error: Required parameter '" << name << "' not found.\n";
-    return var;
-}
-*/
 
-/*
-template<typename T>
-    T get_config_item(T &var, json block, std::string name, bool required) {
-        if ( block[name] != nullptr )
-    	    var = block[name].get<std::string>();
-        if ( required ) std::cout << "Error: Required parameter '" << name << "' not found.\n";
-        return var;
-    }
-*/
-
-
-std::string get_config_string(auto &var, json block, std::string name, bool required) {
-    typeof(var) c;
-    if ( block[name] != nullptr )
-    	var = block[name].get<std::string>();
-    if ( required ) std::cout << "Error: Required parameter '" << name << "' not found.\n";
-    return var;
-}
-/*
-std::string get_config_string_v2(std::string &var, json block, std::string name, bool required) {
-    return get_config_item(var, block, name, required);
-}
-
-int get_config_int(int &var, json block, std::string name, bool required) {
-    return get_config_item(var, block, name, required);
-}
-*/
 Configuration::Configuration(const std::string &file) {
     std::ifstream file_stream(file);
     json j;
     file_stream >> j;
 
-    this->name = j["name"].get<std::string>();
-    name = get_config_item(name, j, "name", true);
-    this->port = j["port"].get<std::uint_fast16_t>();
+    //this->name = j["name"].get<std::string>();
+    get_config_item(name, j, "name", true);
+    //this->port = j["port"].get<std::uint_fast16_t>();
+    get_config_item(port, j, "port");
+    
+    handlers = std::map<Authentication *, Handler *>();
 
-    this->handlers = std::map<Authentication *, Handler *>();
-
-    json handlers_raw = j["handlers"];
+    //json handlers_raw = j["handlers"];
+    json handlers_raw;
+    get_config_item(handlers_raw, j, "handlers", true);
+    
     for (auto &handler_raw : handlers_raw) {
         //std::string handler_name = handler_raw["handler"].get<std::string>();
-        std::string handler_name = get_config_string(handler_name, handler_raw, "handler", true);
+        std::string handler_name = get_config_item(handler_name, handler_raw, "handler", true);
         json handler_options = handler_raw["options"];
         //std::string password = handler_raw["password"].get<std::string>();
-        std::string password = get_config_string(password, handler_raw, "password");
+        std::string password = get_config_item(password, handler_raw, "password");
         //handler_raw["password"].get<std::string>();
-        std::string username = get_config_string(username, handler_raw, "username");
+        std::string username = get_config_item(username, handler_raw, "username");
         //handler_raw["username"].get<std::string>();
 
         auto *authentication = new Authentication(username, password);
@@ -139,3 +108,4 @@ MailHandler *create_mail_handler(json options) {
 
     return new MailHandler(mail_configuration);
 }
+
