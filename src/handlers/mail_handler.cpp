@@ -24,8 +24,8 @@ void MailHandler::Send(SmtpMessage *msg) {
     #define MAIL_SERVER              config->get_mailHostname().c_str()
     #define MAIL_PORT                std::to_string(config->get_mailPort()).c_str()
     #define MAIL_CONNECTION_SECURITY SMTP_SECURITY_TLS
-    #define MAIL_FLAGS               (SMTP_DEBUG         | \
-                                          SMTP_NO_CERT_VERIFY) /* Do not verify cert. */
+    #define MAIL_FLAGS               ( SMTP_DEBUG          | \
+                                       SMTP_NO_CERT_VERIFY )     /* Do not verify cert. */
     #define MAIL_CAFILE              NULL
     #define MAIL_AUTH                SMTP_AUTH_PLAIN
     #define MAIL_USER                config->get_mailUsername().c_str()
@@ -45,6 +45,7 @@ void MailHandler::Send(SmtpMessage *msg) {
 	    rc |= smtp_address_add(smtp, SMTP_ADDRESS_FROM, MAIL_FROM, MAIL_FROM_NAME);
             rc |= smtp_address_add(smtp, SMTP_ADDRESS_TO, MAIL_TO, MAIL_TO_NAME);
             rc |= smtp_header_add(smtp, "Subject", MAIL_SUBJECT);
+            rc |= smtp_header_add(smtp, "Content-Type", "text/plain"); 
             rc |= smtp_mail(smtp, MAIL_BODY);
         }
         rc |= smtp_close(smtp);
